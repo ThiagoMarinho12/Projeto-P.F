@@ -1,6 +1,29 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    margin: 100px
+    margin: 50px
     px;
+}
+#exibicao-palavra{
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+#botao-reiniciar{
+background-color: fuchsia;
+border: none;
+color: black;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+}
+#botao-reiniciar:hover{
+    background-color:aqua;
+}
+#Letras-Experimentadas{
+font-size: 2em;
+color: black;
+font-weight:bold;
+margin-bottom: 20px;
+
 }
