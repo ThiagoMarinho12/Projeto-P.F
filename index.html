@@ -9,13 +9,39 @@
 <body>
     <h1>Jogo da Forca</h1>
     <img id="imagem" src="imagens/imagem0.webp">
-    <div id="exibicao-palavra">_ _ _</div>
+    <div id="exibicao-palavra"></div>
     <input type="text" id="entrada-letra" placeholder="Chute uma letra" maxlength="1">
     <button id="btn-chutar">Experimente</button>
     <h2>Letras Experimentadas</h2>
     <div id="letras experimentadas"></div>
     <div id"mensagem">Voce ganhou!</div><br>
     <button id="botao-reiniciar">Recomeçar</button>
+
+    <!-- Logica Javascript-->
+    <script>
+     const listapalavras =['javascript','html','css','youtube']
+    const palavraEscolhida
+    const exibicaoPalavra
+    const  letrasExperimentadas
+    const tentativasRestantes
+    const numeroErros
+           
+    Function iniciarJogo(){
+        palavraEscolhida=listapalavras[Math.floor(Math.random()*listapalavras.length)]
+         console.log(palavraEscolhida)
+         exibicaoPalavra=Array(palavraEscolhida.length).fill('-')
+         console.log(exibicaoPalavra)
+
+         letraschutadas-[]
+         tentativasRestantes= 7
+         numeroErros-0
+         atualizarExibicao()
+    }
+    window.load=iniciarJogo()
+
+
+
+        </script>
 </body>
 </html>
 

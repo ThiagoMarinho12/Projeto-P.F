@@ -8,8 +8,11 @@ body{
     font-size: 3em;
     margin-bottom: 20px;
 }
-
+#mensagem{
+    display: none;
+}
 #botao-reiniciar{
+display:none;
 background-color: fuchsia;
 border: none;
 color: black;
