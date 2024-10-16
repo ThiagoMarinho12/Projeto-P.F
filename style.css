@@ -16,9 +16,12 @@ display:none;
 background-color: fuchsia;
 border: none;
 color: black;
-padding: 10px 20px;
-border-radius: 5px;
+padding: 30px 60px;
+border-radius: 1000px;
 cursor: pointer;
+margin-top: 30spx;
+margin-left: 900px;
+
 }
 #botao-reiniciar:hover{
     background-color:aqua;
