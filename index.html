@@ -1,90 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo da Forca</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <!--TOPO -->
     <h1>Jogo da Forca</h1>
     <img id="imagem" src="imagens/imagem0.png">
     <div id="exibicao-palavra"></div>
     <input type="text" id="entrada-letra" placeholder="Chute uma letra" maxlength="1">
-    <button id="btn-chutar"onclick="chutarLetra()">Chutar</button>
+    <button id="btn-chutar" onclick="chutarLetra()">Chutar</button>
 
-
-
+    <!-- BAIXO-->
     <h2>Letras Chutadas</h2>
     <div id="letras-chutadas"></div>
-    <div id="mensagem">Voce ganhou!</div><br>
-    <div style="text-align:center ;">
-    <button id="botao-reiniciar" onclick="chutarLetra()">Chutar</button></div>
+    <div id="mensagem">Você ganhou!</div><br>
+    <div style="text-align: center;">
+        <button id="botao-reiniciar" onclick="iniciarJogo()">Recomeçar</button>
+    </div>
 
+    <!-- LOGICA JAVASCRIPT-->
+    <teste src="teste.js"></teste>
+    <words src="words.js"></words>
 
-    <!-- Logica Javascript-->
-    <script>
-        const listapalavras =['javascript','html','css','youtube']
-
-        let palavraEscolhida
-        let exibicaoPalavra
-        let letraschutadas
-        let tentativasRestantes
-        let numeroErros
-           
-    function iniciarJogo(){
-        palavraEscolhida = listapalavras[Math.floor(Math.random()*listapalavras.length)]
-         console.log(palavraEscolhida)
-         exibicaoPalavra=Array(palavraEscolhida.length).fill('_')
-         console.log(exibicaoPalavra)
-
-         letraschutadas= []
-         tentativasRestantes= 7
-         numeroErros= 3
-         atualizarExibicao()    
-        }
-      function atualizarExibicao(){
-        document.getElementById("exibicao-palavra").innerText=exibicaoPalavra.join(' ')
-        document.getElementById("letras-chutadas").innerText=`${letrasChutadas.join(',')}`
-        document.getElementById("imagem").src=`imagens/imagem${numeroErros}.png`
-        document.getElementById('mensagem').innerText=""
-
-
-      if(tentativasRestantes ===0){
-        encerrarJogo('VOCE MORREU')}
-        else if(!exibicaoPalavra.includes('_')){
-            encerrarJogo('Parabéns! VOCE GANHOU!')
-        }
-    }
-
-    function encerrarJogo(mensagem){
-        document.getElementById('entrada-letra').disabled=true
-        document.getElementById('mensagem').innerText=mensagem
-        document.getElementById('mensagem').style.display='block'
-        document.getElementById('botao-reiniciar').style.display='block'
-    }
-    function chutarLetra(){
-     const entradaletra=document.getElementById('entrada-letra')
-     const letra= entradaletra.value.toLowwerCase()
-     if(!letra.match(/[a-zà-Ùç]/i)){
-     alert('Por favor, inisra uma letra válida')
-    return}
-
-     if(letraschutadas.includes(letra)){
-       alert('Voce ja tentou essa letra. Tente outra.')
-   return }
-    }
-
+     
     
-    
-    
-    
-    
-    window.load=iniciarJogo()
 
-
-
-        </script>
 </body>
-</html>
 
+</html>
