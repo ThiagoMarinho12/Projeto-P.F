@@ -12,15 +12,17 @@ body{
     display: none;
 }
 #botao-reiniciar{
-display:none;
+display: none;
 background-color: fuchsia;
 border: none;
 color: black;
 padding: 30px 60px;
 border-radius: 1000px;
 cursor: pointer;
-margin-top: 30spx;
-margin-left: 900px;
+margin-top: 30px;
+margin-left: 155px;
+text-align: center;
+margin: auto;
 
 }
 #botao-reiniciar:hover{

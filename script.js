@@ -1,10 +1,10 @@
 // LISTA DE PALAVRAS PARA O JOGO
-const listaPalavras = ['javascript', 'html', 'css', 'youtube', 'node'];
+const listaPalavras = ["big-data"];
 
 // Função para inicializar o estado do jogo
 const inicializarEstado = () => {
     const palavraEscolhida = listaPalavras[Math.floor(Math.random() * listaPalavras.length)];
-    console.log('Palavra escolhida:', palavraEscolhida);
+    console.log(palavraEscolhida);
 
     return {
         palavraEscolhida,
@@ -17,10 +17,10 @@ const inicializarEstado = () => {
 
 // Função para atualizar a exibição na interface
 const atualizarExibicao = (estado) => {
-    console.log('Atualizando exibição:', estado);
+    console.log(estado);
 
     document.getElementById("exibicao-palavra").innerText = estado.exibicaoPalavra.join(' ');
-    document.getElementById("letras-chutadas").innerText = `${estado.letrasChutadas.join(', ')}`;
+    document.getElementById("letras-chutadas").innerText = `${estado.letrasChutadas.join(',')}`;
     document.getElementById("imagem").src = `imagens/imagem${estado.numeroErros}.png`;
     document.getElementById("mensagem").style.display = 'none';
 
@@ -33,7 +33,7 @@ const atualizarExibicao = (estado) => {
 
 // Função para processar um chute e retornar um novo estado
 const chutarLetra = (estado, letra) => {
-    console.log('Letra chutada:', letra);
+    console.log(letra);
 
     if (estado.letrasChutadas.includes(letra)) {
         alert('Você já tentou esta letra. Tente outra.');
@@ -57,7 +57,7 @@ const chutarLetra = (estado, letra) => {
 
 // Função para encerrar o jogo
 const encerrarJogo = (mensagem) => {
-    console.log('Encerrando jogo:', mensagem);
+    console.log(mensagem);
 
     document.getElementById('entrada-letra').disabled = true;
     document.getElementById('mensagem').innerText = mensagem;
@@ -89,7 +89,7 @@ const iniciarJogo = () => {
     // Evento de clique no botão "Chutar"
     botaoChutar.onclick = () => {
         const letra = entradaLetra.value.toLowerCase();
-        if (letra.match(/[a-zà-ùç]/i) && letra.length === 1) {
+        if (letra.match(/[a-zà-ùç--]/i) && letra.length === 1) {
             estadoAtual = processarEntrada(estadoAtual)(letra);
             entradaLetra.value = ''; // Limpa a entrada
         } else {
