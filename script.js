@@ -1,11 +1,8 @@
-// LISTA DE PALAVRAS PARA O JOGO
-const listaPalavras = ["big-data"];
+const listaPalavras = ["big-data", "javascript", "python", "informatica", "node","algoritmo","virus"];
 
-// Função para inicializar o estado do jogo
+// Função pura para inicializar o estado do jogo
 const inicializarEstado = () => {
     const palavraEscolhida = listaPalavras[Math.floor(Math.random() * listaPalavras.length)];
-    console.log(palavraEscolhida);
-
     return {
         palavraEscolhida,
         exibicaoPalavra: Array(palavraEscolhida.length).fill('_'),
@@ -15,30 +12,9 @@ const inicializarEstado = () => {
     };
 };
 
-// Função para atualizar a exibição na interface
-const atualizarExibicao = (estado) => {
-    console.log(estado);
-
-    document.getElementById("exibicao-palavra").innerText = estado.exibicaoPalavra.join(' ');
-    document.getElementById("letras-chutadas").innerText = `${estado.letrasChutadas.join(',')}`;
-    document.getElementById("imagem").src = `imagens/imagem${estado.numeroErros}.png`;
-    document.getElementById("mensagem").style.display = 'none';
-
-    if (estado.tentativasRestantes === 0) {
-        encerrarJogo('VOCÊ MORREU!');
-    } else if (!estado.exibicaoPalavra.includes('_')) {
-        encerrarJogo('Parabéns! Você venceu!');
-    }
-};
-
-// Função para processar um chute e retornar um novo estado
-const chutarLetra = (estado, letra) => {
-    console.log(letra);
-
-    if (estado.letrasChutadas.includes(letra)) {
-        alert('Você já tentou esta letra. Tente outra.');
-        return estado;
-    }
+// Função pura para processar o chute e retornar um novo estado
+const processarChute = (estado, letra) => {
+    if (estado.letrasChutadas.includes(letra)) return estado; // Sem mudança se a letra já foi chutada
 
     const letrasChutadasAtualizadas = [...estado.letrasChutadas, letra];
     const exibicaoAtualizada = estado.exibicaoPalavra.map((char, index) =>
@@ -47,59 +23,76 @@ const chutarLetra = (estado, letra) => {
 
     return estado.palavraEscolhida.includes(letra)
         ? { ...estado, exibicaoPalavra: exibicaoAtualizada, letrasChutadas: letrasChutadasAtualizadas }
-        : { 
-            ...estado, 
-            letrasChutadas: letrasChutadasAtualizadas, 
-            tentativasRestantes: estado.tentativasRestantes - 1, 
-            numeroErros: estado.numeroErros + 1 
-          };
+        : {
+            ...estado,
+            letrasChutadas: letrasChutadasAtualizadas,
+            tentativasRestantes: estado.tentativasRestantes - 1,
+            numeroErros: estado.numeroErros + 1,
+        };
 };
 
-// Função para encerrar o jogo
-const encerrarJogo = (mensagem) => {
-    console.log(mensagem);
+// Função pura para verificar se o jogo terminou
+const verificarFimDeJogo = (estado) => {
+    if (estado.tentativasRestantes === 0) return 'VOCÊ MORREU!';
+    if (!estado.exibicaoPalavra.includes('_')) return 'Parabéns! Você venceu!';
+    return null;
+};
 
+// Função de efeito colateral: Atualiza o DOM
+const atualizarExibicao = (estado) => {
+    document.getElementById("exibicao-palavra").innerText = estado.exibicaoPalavra.join(' ');
+    document.getElementById("letras-chutadas").innerText = estado.letrasChutadas.join(', ');
+    document.getElementById("imagem").src = `imagens/imagem${estado.numeroErros}.png`;
+
+    const mensagem = verificarFimDeJogo(estado);
+    if (mensagem) encerrarJogo(mensagem);
+};
+
+// Função de efeito colateral: Encerrar o jogo e manipular o DOM
+const encerrarJogo = (mensagem) => {
     document.getElementById('entrada-letra').disabled = true;
     document.getElementById('mensagem').innerText = mensagem;
     document.getElementById('mensagem').style.display = 'block';
     document.getElementById('botao-reiniciar').style.display = 'block';
 };
 
-// Função principal para inicializar o jogo
+// Função principal para inicializar o jogo e gerenciar o fluxo de estado
 const iniciarJogo = () => {
     const estadoInicial = inicializarEstado();
+    configurarEventos(estadoInicial);
+    atualizarExibicao(estadoInicial);
+};
 
-    const processarEntrada = (estadoAtual) => (letra) => {
-        const novoEstado = chutarLetra(estadoAtual, letra);
-        atualizarExibicao(novoEstado);
-        return novoEstado;
-    };
+// Função pura para processar entrada e gerar um novo estado
+const criarProcessadorDeEntrada = (estadoAtual, letra) => {
+    const novoEstado = processarChute(estadoAtual, letra);
+    atualizarExibicao(novoEstado); // Exibir o novo estado
+    return novoEstado; // Retornar o novo estado
+};
 
+// Configura eventos de clique e entrada
+const configurarEventos = (estadoInicial) => {
     const botaoChutar = document.getElementById('btn-chutar');
     const entradaLetra = document.getElementById('entrada-letra');
     const botaoReiniciar = document.getElementById('botao-reiniciar');
 
-    document.getElementById('botao-reiniciar').style.display = 'none';
-    document.getElementById('entrada-letra').disabled = false;
+    botaoReiniciar.style.display = 'none';
+    entradaLetra.disabled = false;
 
-    let estadoAtual = estadoInicial; // Estado inicial do jogo
+    let estadoAtual = estadoInicial; // Estado local gerenciado funcionalmente
 
-    atualizarExibicao(estadoAtual);
-
-    // Evento de clique no botão "Chutar"
     botaoChutar.onclick = () => {
         const letra = entradaLetra.value.toLowerCase();
-        if (letra.match(/[a-zà-ùç--]/i) && letra.length === 1) {
-            estadoAtual = processarEntrada(estadoAtual)(letra);
+        if (letra.match(/[a-zà-ùç-]/i) && letra.length === 1) {
+            estadoAtual = criarProcessadorDeEntrada(estadoAtual, letra); // Atualiza o estado localmente
             entradaLetra.value = ''; // Limpa a entrada
         } else {
             alert('Por favor, insira uma letra válida.');
         }
     };
 
-    // Evento de clique no botão "Reiniciar"
-    botaoReiniciar.onclick = () => iniciarJogo();
+    botaoReiniciar.onclick = iniciarJogo;
 };
 
-// Inicia o jogo ao carregar a página
+// Inicializa o jogo quando a página é carregada
 window.onload = iniciarJogo;
