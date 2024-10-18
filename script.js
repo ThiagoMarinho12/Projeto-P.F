@@ -1,7 +1,7 @@
 const listaPalavras = ["big-data", "javascript", "python", "informatica", "node","algoritmo","virus"];
 
-// Função pura para inicializar o estado do jogo
-const inicializarEstado = () => {
+// Função pura para inicializar o estado
+const inicializarGame = () => {
     const palavraEscolhida = listaPalavras[Math.floor(Math.random() * listaPalavras.length)];
     return {
         palavraEscolhida,
@@ -13,38 +13,38 @@ const inicializarEstado = () => {
 };
 
 // Função pura para processar o chute e retornar um novo estado
-const processarChute = (estado, letra) => {
-    if (estado.letrasChutadas.includes(letra)) return estado; // Sem mudança se a letra já foi chutada
+const processarChute = (status, letra) => {
+    if (status.letrasChutadas.includes(letra)) return status; // Sem mudança se a letra já foi chutada
 
-    const letrasChutadasAtualizadas = [...estado.letrasChutadas, letra];
-    const exibicaoAtualizada = estado.exibicaoPalavra.map((char, index) =>
-        estado.palavraEscolhida[index] === letra ? letra : char
+    const letrasChutadasAtualizadas = [...status.letrasChutadas, letra];
+    const exibicaoAtualizada = status.exibicaoPalavra.map((char, index) =>
+        status.palavraEscolhida[index] === letra ? letra : char
     );
 
-    return estado.palavraEscolhida.includes(letra)
-        ? { ...estado, exibicaoPalavra: exibicaoAtualizada, letrasChutadas: letrasChutadasAtualizadas }
+    return status.palavraEscolhida.includes(letra)
+        ? { ...status, exibicaoPalavra: exibicaoAtualizada, letrasChutadas: letrasChutadasAtualizadas }
         : {
-            ...estado,
+            ...status,
             letrasChutadas: letrasChutadasAtualizadas,
-            tentativasRestantes: estado.tentativasRestantes - 1,
-            numeroErros: estado.numeroErros + 1,
+            tentativasRestantes: status.tentativasRestantes - 1,
+            numeroErros: status.numeroErros + 1,
         };
 };
 
 // Função pura para verificar se o jogo terminou
-const verificarFimDeJogo = (estado) => {
-    if (estado.tentativasRestantes === 0) return 'VOCÊ MORREU!';
-    if (!estado.exibicaoPalavra.includes('_')) return 'Parabéns! Você venceu!';
+const verificarFimDeJogo = (status) => {
+    if (status.tentativasRestantes === 0) return 'VOCÊ MORREU!';
+    if (!status.exibicaoPalavra.includes('_')) return 'Parabéns! Você venceu!';
     return null;
 };
 
 // Função de efeito colateral: Atualiza o DOM
-const atualizarExibicao = (estado) => {
-    document.getElementById("exibicao-palavra").innerText = estado.exibicaoPalavra.join(' ');
-    document.getElementById("letras-chutadas").innerText = estado.letrasChutadas.join(', ');
-    document.getElementById("imagem").src = `imagens/imagem${estado.numeroErros}.png`;
+const atualizarExibicao = (status) => {
+    document.getElementById("exibicao-palavra").innerText = status.exibicaoPalavra.join(' ');
+    document.getElementById("letras-chutadas").innerText = status.letrasChutadas.join(', ');
+    document.getElementById("imagem").src = `imagens/imagem${status.numeroErros}.png`;
 
-    const mensagem = verificarFimDeJogo(estado);
+    const mensagem = verificarFimDeJogo(status);
     if (mensagem) encerrarJogo(mensagem);
 };
 
@@ -58,20 +58,20 @@ const encerrarJogo = (mensagem) => {
 
 // Função principal para inicializar o jogo e gerenciar o fluxo de estado
 const iniciarJogo = () => {
-    const estadoInicial = inicializarEstado();
-    configurarEventos(estadoInicial);
-    atualizarExibicao(estadoInicial);
+    const statusInicial = inicializarGame();
+    configurarEventos(statusInicial);
+    atualizarExibicao(statusInicial);
 };
 
 // Função pura para processar entrada e gerar um novo estado
-const criarProcessadorDeEntrada = (estadoAtual, letra) => {
-    const novoEstado = processarChute(estadoAtual, letra);
-    atualizarExibicao(novoEstado); // Exibir o novo estado
-    return novoEstado; // Retornar o novo estado
+const criarProcessadorDeEntrada = (statusAtual, letra) => {
+    const novoStatus = processarChute(statusAtual, letra);
+    atualizarExibicao(novoStatus); // Exibir o novo estado
+    return novoStatus; // Retornar o novo estado
 };
 
 // Configura eventos de clique e entrada
-const configurarEventos = (estadoInicial) => {
+const configurarEventos = (statusInicial) => {
     const botaoChutar = document.getElementById('btn-chutar');
     const entradaLetra = document.getElementById('entrada-letra');
     const botaoReiniciar = document.getElementById('botao-reiniciar');
@@ -79,12 +79,12 @@ const configurarEventos = (estadoInicial) => {
     botaoReiniciar.style.display = 'none';
     entradaLetra.disabled = false;
 
-    let estadoAtual = estadoInicial; // Estado local gerenciado funcionalmente
+    let statusAtual = statusInicial; // Estado local gerenciado funcionalmente
 
     botaoChutar.onclick = () => {
         const letra = entradaLetra.value.toLowerCase();
         if (letra.match(/[a-zà-ùç-]/i) && letra.length === 1) {
-            estadoAtual = criarProcessadorDeEntrada(estadoAtual, letra); // Atualiza o estado localmente
+            statusAtual = criarProcessadorDeEntrada(statusAtual, letra); // Atualiza o estado localmente
             entradaLetra.value = ''; // Limpa a entrada
         } else {
             alert('Por favor, insira uma letra válida.');
