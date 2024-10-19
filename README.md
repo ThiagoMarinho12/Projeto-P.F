@@ -1,3 +1,5 @@
+# Trabalho-PF H1
+
 Jogo da Forca – Diversão e Desafios em Grupo
 Prepare-se para testar seu vocabulário e raciocínio rápido! O jogo da forca é um clássico no qual o jogador precisa adivinhar uma palavra secreta . Cada letra errada diminui uma das 7 vidas disponíveis. Se todas as vidas se esgotarem, o jogo termina e o jogador perde.
 
