@@ -1,6 +1,6 @@
 /* Lista de palavras, um array que contem diversas palavras relacionadas a computacao que serao usadas no jogo da forca(Thiago)*/
 
-const listaPalavras = ["big-data", "javascript", "python", "informatica", "node","algoritmo","virus"];
+const listaPalavras = ["big-data", "javascript", "python", "informatica", "node","algoritmo","virus","html"];
 
 
 /*inicializarGame: função que inicializa o estado do jogo. Ela:

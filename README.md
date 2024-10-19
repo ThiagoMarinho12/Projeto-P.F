@@ -15,6 +15,12 @@ Prepare-se para testar seu vocabulário e raciocínio rápido! O jogo da forca �
 Vitória: O jogo é vencido se o jogador adivinhar corretamente todas as letras da palavra antes de esgotar as vidas.
 Derrota: Se as 7 vidas acabarem antes que a palavra seja descoberta, o jogador perde a partida.
 
+## Referência utilizada para o desenvolvimento do "Jogo da Forca":
+https://www.youtube.com/watch?v=-riyWTsPeQ8&t=912s
+https://github.com/WilliamDosSantos/hangman-game
+
+ ## Site do netlify com o jogo:
+ https://radiant-arithmetic-905fc3.netlify.app/
 
 
 
